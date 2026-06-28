@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Quiz de Medicina</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe4ec, #e7f0ff);
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: aparecer 0.5s ease;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #d6336c;
+      margin-bottom: 12px;
+      font-size: 2rem;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 18px;
+      font-size: 1.35rem;
+    }
+
+    p {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .heart {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      border: none;
+      background: #d6336c;
+      color: white;
+      padding: 13px 22px;
+      margin: 8px;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: #b72a59;
+    }
+
+    .option {
+      display: block;
+      width: 100%;
+      background: #f7f7f7;
+      color: #333;
+      border: 2px solid transparent;
+      margin: 10px 0;
+      padding: 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: left;
+    }
+
+    .option:hover {
+      border-color: #d6336c;
+      background: #fff0f5;
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .yes {
+      background: #2f9e44;
+    }
+
+    .yes:hover {
+      background: #248232;
+    }
+
+    .no {
+      background: #868e96;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="inicio">
+      <div class="heart">🩺💗</div>
+      <h1>Mini Quiz de Medicina</h1>
+      <p>Hola Carla. Antes de llegar a la pregunta importante, tienes que demostrar tus conocimientos médicos.</p>
+      <button class="btn" onclick="empezarQuiz()">Empezar</button>
+    </div>
+
+    <div id="quiz" class="hidden">
+      <h2 id="pregunta"></h2>
+      <div id="opciones"></div>
+      <p class="small" id="progreso"></p>
+    </div>
+
+    <div id="resultado" class="hidden">
+      <div class="heart">✨</div>
+      <h1>Resultado</h1>
+      <p id="mensajeResultado"></p>
+      <button class="btn" onclick="mostrarPreguntaFinal()">Continuar</button>
+    </div>
+
+    <div id="final" class="hidden">
+      <div class="heart">❤️</div>
+      <h1>Pregunta final</h1>
+      <p>Después de este exigente examen clínico, solo queda una pregunta:</p>
+      <h2>¿Te gustaría salir conmigo?</h2>
+      <button class="btn yes" onclick="respuestaSi()">Sí 💕</button>
+      <button class="btn no" id="botonNo" onclick="respuestaNo()">No 😅</button>
+      <p class="small">Prometo que no habrá más preguntas de alternativa.</p>
+    </div>
+
+    <div id="si" class="hidden">
+      <div class="heart">🥰</div>
+      <h1>¡Sabía que tenías buen criterio clínico!</h1>
+      <p>Diagnóstico: cita altamente recomendada. Pronóstico: muy bueno si incluye comida rica, conversación y risas.</p>
+    </div>
+
+    <div id="no" class="hidden">
+      <div class="heart">😊</div>
+      <h1>Está bien</h1>
+      <p>Gracias por responder. Igual espero que el quiz te haya sacado una sonrisa.</p>
+    </div>
+  </div>
+
+  <script>
+    const preguntas = [
+      {
+        texto: "¿Qué órgano bombea sangre al resto del cuerpo?",
+        opciones: ["Pulmón", "Corazón", "Hígado", "Riñón"],
+        correcta: 1
+      },
+      {
+        texto: "¿Cuál es la unidad funcional del riñón?",
+        opciones: ["Neurona", "Nefrona", "Alvéolo", "Miocito"],
+        correcta: 1
+      },
+      {
+        texto: "¿Qué célula transporta principalmente oxígeno?",
+        opciones: ["Eritrocito", "Leucocito", "Plaqueta", "Macrófago"],
+        correcta: 0
+      },
+      {
+        texto: "¿Cuál es el hueso más largo del cuerpo humano?",
+        opciones: ["Húmero", "Radio", "Fémur", "Tibia"],
+        correcta: 2
+      }
+    ];
+
+    let indice = 0;
+    let puntaje = 0;
+
+    function mostrar(seccion) {
+      const ids = ["inicio", "quiz", "resultado", "final", "si", "no"];
+      ids.forEach(id => document.getElementById(id).classList.add("hidden"));
+      document.getElementById(seccion).classList.remove("hidden");
+    }
+
+    function empezarQuiz() {
+      indice = 0;
+      puntaje = 0;
+      mostrar("quiz");
+      cargarPregunta();
+    }
+
+    function cargarPregunta() {
+      const p = preguntas[indice];
+      document.getElementById("pregunta").textContent = p.texto;
+      document.getElementById("progreso").textContent = `Pregunta ${indice + 1} de ${preguntas.length}`;
+
+      const opcionesDiv = document.getElementById("opciones");
+      opcionesDiv.innerHTML = "";
+
+      p.opciones.forEach((opcion, i) => {
+        const boton = document.createElement("button");
+        boton.className = "option";
+        boton.textContent = opcion;
+        boton.onclick = () => responder(i);
+        opcionesDiv.appendChild(boton);
+      });
+    }
+
+    function responder(i) {
+      if (i === preguntas[indice].correcta) {
+        puntaje++;
+      }
+
+      indice++;
+
+      if (indice < preguntas.length) {
+        cargarPregunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      mostrar("resultado");
+      const mensaje = document.getElementById("mensajeResultado");
+      mensaje.textContent = `Sacaste ${puntaje} de ${preguntas.length}. Independiente del resultado, pasaste la parte más difícil: llegar a la pregunta final.`;
+    }
+
+    function mostrarPreguntaFinal() {
+      mostrar("final");
+    }
+
+    function respuestaSi() {
+      mostrar("si");
+    }
+
+    function respuestaNo() {
+      mostrar("no");
+    }
+  </script>
+</body>
+</html>
