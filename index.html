@@ -35,19 +35,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 {
-      font-size: 2.05rem;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-size: 1.45rem;
-      margin-bottom: 16px;
-    }
+    h1 { font-size: 2.05rem; margin-bottom: 10px; }
+    h2 { font-size: 1.5rem; margin-bottom: 16px; }
 
     p {
       font-size: 1.05rem;
-      line-height: 1.65;
+      line-height: 1.6;
     }
 
     button {
@@ -97,7 +90,7 @@
     }
 
     .small {
-      opacity: 0.82;
+      opacity: 0.8;
       font-size: 0.95rem;
     }
 
@@ -150,7 +143,7 @@
           "Área motora primaria"
         ],
         correct: 1,
-        explanation: "El hipocampo es clave para consolidar nuevos recuerdos episódicos. Por eso su lesión puede producir amnesia anterógrada."
+        explanation: "El hipocampo es clave para consolidar nuevos recuerdos episódicos."
       },
       {
         title: "Neuromuscular",
@@ -174,7 +167,7 @@
           "Ataxia cerebelosa"
         ],
         correct: 1,
-        explanation: "El área de Broca se relaciona con la producción del lenguaje. Su lesión produce una afasia no fluente, con comprensión relativamente conservada."
+        explanation: "El área de Broca se relaciona con la producción del lenguaje. Su lesión produce afasia no fluente."
       },
       {
         title: "Pregunta de supervivencia médica",
@@ -192,7 +185,6 @@
 
     let index = 0;
     let score = 0;
-
     const app = document.getElementById("app");
 
     function start() {
@@ -227,7 +219,7 @@
       if (correct) score++;
 
       app.innerHTML = `
-        <h2>${correct ? "✅ Correcto" : "😅 Casi, pero te lo perdono"}</h2>
+        <h2>${correct ? "✅ Correcto" : "😅 Casi, pero se acepta"}</h2>
         <p>${q.explanation}</p>
         <button onclick="nextQuestion()">Continuar</button>
       `;
@@ -295,14 +287,67 @@
 
     function maybe() {
       app.innerHTML = `
-        <h1>Respuesta válida ❤️</h1>
+        <h2>🤔 Interesante...</h2>
         <p>
-          Gracias por llegar hasta el final.
-          Me hacía ilusión hacerte algo distinto y recordarte ese momento bonito estudiando casos clínicos.
+          Antes de cerrar el caso, queda una última pregunta clínica.
+        </p>
+        <p class="small">Prometo que esta sí es la última.</p>
+        <button onclick="lastQuestion()">Continuar</button>
+      `;
+    }
+
+    function lastQuestion() {
+      app.innerHTML = `
+        <h2>Caso clínico final</h2>
+
+        <div class="note">
+          <p><b>Paciente:</b> masculino de 26 años.</p>
+          <p><b>Motivo de consulta:</b> nerviosismo al intentar invitar a alguien a juntarse.</p>
+          <p><b>Antecedente relevante:</b> disfrutó mucho una tarde leyendo casos clínicos contigo.</p>
+          <p><b>Hallazgo asociado:</b> aún tiene un llavero pendiente por entregar.</p>
+        </div>
+
+        <p><b>¿Cuál sería la conducta más razonable?</b></p>
+
+        <button class="option" onclick="yes()">
+          Aceptar juntarse a estudiar casos clínicos 😄
+        </button>
+
+        <button class="option" onclick="finalNo()">
+          Mantener en observación y reevaluar evolución
+        </button>
+
+        <button class="option" onclick="overthinking()">
+          Derivar por sobrepensar demasiado
+        </button>
+      `;
+    }
+
+    function finalNo() {
+      app.innerHTML = `
+        <h1>Observación aceptada ❤️</h1>
+        <p>
+          Como toda buena conducta clínica, observar también puede ser válido.
         </p>
         <p>
-          Y pase lo que pase, el llavero sigue pendiente de entrega 😄
+          La invitación queda abierta, sin presión.
+          Y el llavero sigue pendiente de entrega 😄
         </p>
+      `;
+    }
+
+    function overthinking() {
+      app.innerHTML = `
+        <h1>Diagnóstico probablemente correcto 😂</h1>
+        <p>
+          Sí, el paciente sobrepensó un poco.
+        </p>
+        <p>
+          Pero igual el plan terapéutico sugerido sigue siendo:
+          juntarse a estudiar casos clínicos y entregar el llavero pendiente.
+        </p>
+        <button onclick="yes()">Aceptar tratamiento</button>
+        <button onclick="finalNo()">Dejar en observación</button>
       `;
     }
 
