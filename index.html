@@ -36,18 +36,18 @@
     }
 
     h1 {
-      font-size: 2.1rem;
+      font-size: 2.05rem;
       margin-bottom: 10px;
     }
 
     h2 {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       margin-bottom: 16px;
     }
 
     p {
       font-size: 1.05rem;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     button {
@@ -97,13 +97,23 @@
     }
 
     .small {
-      opacity: 0.8;
+      opacity: 0.82;
       font-size: 0.95rem;
     }
 
     .heart {
       font-size: 4rem;
       animation: pulse 1s infinite alternate;
+      margin: 12px 0;
+    }
+
+    .note {
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 20px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
     }
 
     @keyframes pulse {
@@ -128,7 +138,7 @@
           "Arteria basilar"
         ],
         correct: 1,
-        explanation: "La hemiparesia derecha más alteración del lenguaje sugiere compromiso del hemisferio dominante, típicamente territorio de la arteria cerebral media izquierda."
+        explanation: "La hemiparesia derecha más alteración del lenguaje orienta a compromiso del hemisferio dominante, típicamente en territorio de la arteria cerebral media izquierda."
       },
       {
         title: "Neurociencias",
@@ -140,7 +150,7 @@
           "Área motora primaria"
         ],
         correct: 1,
-        explanation: "El hipocampo es clave para la consolidación de nuevos recuerdos episódicos."
+        explanation: "El hipocampo es clave para consolidar nuevos recuerdos episódicos. Por eso su lesión puede producir amnesia anterógrada."
       },
       {
         title: "Neuromuscular",
@@ -152,7 +162,7 @@
           "ELA"
         ],
         correct: 1,
-        explanation: "La debilidad fluctuante, ocular y fatigable es muy sugerente de miastenia gravis."
+        explanation: "La debilidad ocular, fluctuante y fatigable es muy sugerente de miastenia gravis."
       },
       {
         title: "Neuroanatomía clínica",
@@ -164,19 +174,19 @@
           "Ataxia cerebelosa"
         ],
         correct: 1,
-        explanation: "El área de Broca se asocia a producción del lenguaje. Su lesión produce afasia no fluente."
+        explanation: "El área de Broca se relaciona con la producción del lenguaje. Su lesión produce una afasia no fluente, con comprensión relativamente conservada."
       },
       {
         title: "Pregunta de supervivencia médica",
-        text: "¿Cuántos cafés necesita un interno para sobrevivir un turno largo?",
+        text: "Después de un turno largo, ¿cuál sería la indicación más razonable?",
         options: [
-          "Uno",
-          "Tres",
-          "Depende del residente",
+          "Un café",
+          "Dormir 14 horas",
+          "Decir 'estoy bien' aunque claramente no",
           "Todas las anteriores"
         ],
         correct: 3,
-        explanation: "Respuesta científicamente irrefutable: todas las anteriores."
+        explanation: "Respuesta clínicamente compatible con la vida hospitalaria: todas las anteriores."
       }
     ];
 
@@ -187,11 +197,10 @@
 
     function start() {
       app.innerHTML = `
-        <h1>🩺 Bienvenida, Dra. Carla</h1>
-        <p class="small">Todavía no oficialmente... pero casi 😄</p>
-        <p>Tengo un pequeño desafío para ti.</p>
-        <p><b>5 preguntas. Un caso clínico. Algo de neurociencias.</b></p>
-        <p>Y una recompensa al final.</p>
+        <h1>🩺 Bienvenida, Carla</h1>
+        <p class="small">Mini desafío clínico hecho especialmente para ti</p>
+        <p>Prometo que no es un examen.</p>
+        <p>Son solo <b>5 preguntas</b>, un poco de neurociencias y una pequeña sorpresa al final.</p>
         <button onclick="showQuestion()">Comenzar</button>
       `;
     }
@@ -218,7 +227,7 @@
       if (correct) score++;
 
       app.innerHTML = `
-        <h2>${correct ? "✅ Correcto" : "😅 Casi"}</h2>
+        <h2>${correct ? "✅ Correcto" : "😅 Casi, pero te lo perdono"}</h2>
         <p>${q.explanation}</p>
         <button onclick="nextQuestion()">Continuar</button>
       `;
@@ -238,20 +247,35 @@
         <div class="progress"><div class="bar" style="width:100%"></div></div>
         <h1>Resultado final</h1>
         <p>Obtuviste <b>${score}/5</b>.</p>
-        <p>No esperaba menos de alguien de sexto año de Medicina 😄</p>
-        <button onclick="reward()">Ver recompensa</button>
+        <p>Igual, siendo honesto, el puntaje no era lo más importante de este quiz.</p>
+        <button onclick="reward()">Ver conclusión del caso</button>
       `;
     }
 
     function reward() {
       app.innerHTML = `
-        <h2>Diagnóstico final</h2>
-        <p>El paciente presenta nerviosismo progresivo, taquicardia leve y dificultad para formular una pregunta importante.</p>
-        <p><b>Impresión diagnóstica:</b> quiere invitar a salir a una estudiante de Medicina.</p>
-        <p><b>Tratamiento recomendado:</b> un café contigo.</p>
+        <h2>Conclusión del caso</h2>
+
+        <div class="note">
+          <p><b>Motivo de consulta:</b> alguien quería encontrar una forma distinta de decirte algo.</p>
+          <p><b>Evolución:</b> se acordó de esa vez en que se juntaron en tu casa y él te iba leyendo casos clínicos.</p>
+          <p><b>Hallazgo importante:</b> lo pasó muy bien y le gustaría repetirlo.</p>
+        </div>
+
+        <p>
+          La verdad es que este quiz era una excusa para preguntarte algo de una forma menos fome.
+        </p>
+
+        <p>
+          Me gustaría que nos juntemos de nuevo a estudiar casos clínicos, como esa vez.
+          Y además tengo algo pendiente que quiero entregarte: tu llavero.
+        </p>
+
         <div class="heart">❤️</div>
-        <h1>¿Te gustaría salir conmigo esta semana?</h1>
-        <button onclick="yes()">Sí</button>
+
+        <h1>¿Te gustaría que nos juntemos esta semana?</h1>
+
+        <button onclick="yes()">Sí, me gustaría</button>
         <button onclick="maybe()">Lo pensaré</button>
       `;
     }
@@ -259,28 +283,39 @@
     function yes() {
       app.innerHTML = `
         <div class="heart">💖</div>
-        <h1>¡Me hiciste muy feliz!</h1>
-        <p>Ahora solo falta coordinar el café por Instagram 😄</p>
+        <h1>Entonces queda indicado en la ficha clínica</h1>
+        <p>
+          Plan: estudiar casos clínicos juntos, reírnos un rato
+          y entregarte tu llavero pendiente.
+        </p>
+        <p>Me hiciste muy feliz. Escríbeme por Instagram y coordinamos 😄</p>
       `;
       confetti();
     }
 
     function maybe() {
       app.innerHTML = `
-        <h1>Gracias por llegar hasta el final ❤️</h1>
-        <p>No pasa nada. Igual me alegró poder hacerte este pequeño quiz.</p>
+        <h1>Respuesta válida ❤️</h1>
+        <p>
+          Gracias por llegar hasta el final.
+          Me hacía ilusión hacerte algo distinto y recordarte ese momento bonito estudiando casos clínicos.
+        </p>
+        <p>
+          Y pase lo que pase, el llavero sigue pendiente de entrega 😄
+        </p>
       `;
     }
 
     function confetti() {
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 45; i++) {
         const piece = document.createElement("div");
-        piece.innerHTML = "❤️";
+        piece.innerHTML = Math.random() > 0.5 ? "❤️" : "✨";
         piece.style.position = "fixed";
         piece.style.left = Math.random() * 100 + "vw";
         piece.style.top = "-20px";
         piece.style.fontSize = Math.random() * 20 + 15 + "px";
         piece.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+        piece.style.pointerEvents = "none";
         document.body.appendChild(piece);
 
         setTimeout(() => piece.remove(), 4000);
